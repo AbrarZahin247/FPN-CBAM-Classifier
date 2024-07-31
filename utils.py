@@ -1,6 +1,6 @@
 
 
-def train(model, dataloader, criterion, optimizer, device):
+def trainer(model, dataloader, criterion, optimizer, device):
     model.train()
     running_loss = 0.0
     correct = 0
@@ -35,7 +35,7 @@ def train(model, dataloader, criterion, optimizer, device):
     print(f'Train Loss: {epoch_loss:.4f}, Train Accuracy: {epoch_acc:.4f}')
     return epoch_loss, epoch_acc
 
-def test(model, dataloader, criterion, device):
+def tester(model, dataloader, criterion, device):
     model.eval()
     running_loss = 0.0
     correct = 0
@@ -61,28 +61,3 @@ def test(model, dataloader, criterion, device):
     print(f'Test Loss: {epoch_loss:.4f}, Test Accuracy: {epoch_acc:.4f}')
     return epoch_loss, epoch_acc
 
-## Train the model
-
-num_epochs = 10
-best_acc = 0.0  # Initialize the best accuracy to 0
-
-for epoch in range(num_epochs):
-    print(f'Epoch {epoch+1}/{num_epochs}')
-
-    # Train the model for one epoch
-    train_loss, train_acc = train(model, train_loader, criterion, optimizer, device)
-
-    # Evaluate the model on the test set
-    test_loss, test_acc = test(model, test_loader, criterion, device)
-
-    # Check if the current test accuracy is greater than the best accuracy so far
-    if test_acc > best_acc:
-        best_acc = test_acc
-        # Save the model state dict if the accuracy improves
-        torch.save(model.state_dict(), 'best_model.pth')
-        print(f'Saved Best Model with Accuracy: {best_acc:.4f}')
-    else:
-        print(f'No improvement in accuracy: {test_acc:.4f}, Best Accuracy: {best_acc:.4f}')
-
-
-print('... Training complete ...')
